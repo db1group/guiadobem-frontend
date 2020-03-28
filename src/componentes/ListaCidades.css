@@ -1,0 +1,17 @@
+.container .card {
+  cursor: pointer;
+}
+
+.container .card-img {
+  height: 200px;
+  width: 100%;
+}
+
+.card-footer {
+  margin-top: 120px;
+  padding-left: 0px;
+}
+
+.container .linha-cidades {
+  margin: 10px;
+}
