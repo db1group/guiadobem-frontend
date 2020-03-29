@@ -1,27 +1,37 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import "./ModalNovoParceiro.css";
+import api from "../services/api";
 
 export default function ModalNovoParceiro(props) {
-  const [cidade, setCidade] = useState("");
-  const [categoria, setCategoria] = useState("");
+  const [cidadeId, setcidadeId] = useState("");
+  const [categoriaId, setcategoriaId] = useState("");
   const [nome, setNome] = useState("");
   const [tipo, setTipo] = useState("");
   const [telefone, setTelefone] = useState("");
   const [whatsapp, setwhatsapp] = useState("");
   const [responsavel, setResponsavel] = useState("");
 
-  function incluirNovoParceiro(event) {
+  async function incluirNovoParceiro(event) {
     event.preventDefault();
     const parceiro = {};
-    parceiro.cidade = cidade;
-    parceiro.categoria = categoria;
+    parceiro.nome = nome;
     parceiro.tipo = tipo;
     parceiro.telefone = telefone;
     parceiro.whatsapp = whatsapp;
     parceiro.responsavel = responsavel;
-    console.log({ parceiro });
-    setCidade("");
-    setCategoria("");
+    parceiro.publicar = true;
+    parceiro.cidadeId = cidadeId;
+    parceiro.categoriaId = categoriaId;
+    console.log(parceiro);
+    const response = await api.post("/estabelecimentos", parceiro);
+
+    if (response.status === 201) {
+      window.location.reload();
+    }
+
+    setcidadeId("");
+    setcategoriaId("");
     setNome("");
     setTipo("");
     setTelefone("");
@@ -44,31 +54,31 @@ export default function ModalNovoParceiro(props) {
           <Form.Group>
             <Form.Control
               as="select"
-              value={cidade}
+              value={cidadeId}
               required
-              onChange={e => setCidade(e.target.value)}
+              onChange={e => setcidadeId(e.target.key)}
             >
               <option value="" disabled hidden>
                 Selecione uma Cidade
               </option>
-              <option>Maringá</option>
-              <option>Campo Grande</option>
-              <option>Presidente Prudente</option>
-              <option>Outras</option>
+              <option key="1">Maringá</option>
+              <option key="2">Campo Grande</option>
+              <option key="3">Presidente Prudente</option>
+              <option key="4">Outras</option>
             </Form.Control>
             <Form.Control
               as="select"
-              value={categoria}
+              value={categoriaId}
               required
-              onChange={e => setCategoria(e.target.value)}
+              onChange={e => setcategoriaId(e.target.value)}
             >
               <option value="" disabled hidden>
                 Selecione uma Categoria
               </option>
-              <option>Horti-fruti</option>
-              <option>Confeitaria</option>
-              <option>Serviços</option>
-              <option>Outros Itens</option>
+              <option key="1">Horti-fruti</option>
+              <option key="2">Confeitaria</option>
+              <option key="3">Serviços</option>
+              <option key="4">Outros Itens</option>
             </Form.Control>
             <Form.Control
               type="text"

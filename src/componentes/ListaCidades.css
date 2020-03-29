@@ -1,3 +1,7 @@
+.card-deck {
+  margin-top: 5px;
+}
+
 .container .card {
   cursor: pointer;
 }

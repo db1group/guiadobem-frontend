@@ -7,14 +7,10 @@
 }
 
 .textoCabecalho p {
+  font-family: sans-serif, Arial;
+  font-size: x-large;
+  font-weight: bold;
   margin: 0;
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
-}
-
-.imagemCabecalho img {
-  margin-left: 10px;
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);

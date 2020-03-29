@@ -1,8 +1,3 @@
-.linha-estabelecimentos {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-}
-
-div.linha-estabelecimentos p {
-  margin-bottom: 0rem;
+.card-columns {
+  margin-top: 5px;
 }

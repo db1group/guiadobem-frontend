@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import "./Cabecalho.css";
 import ModalNovoParceiro from "./ModalNovoParceiro";
+import imgLogo from "../imagens/logo-cords.jpg";
 
 export default function Cabecalho(props) {
   const [exibirModal, setexibirModal] = useState(false);
@@ -13,7 +14,7 @@ export default function Cabecalho(props) {
     <Container>
       <Row className="linha-cabecalho">
         <Col sm={2} className="imagemCabecalho">
-          <img src="" alt="ícone" />
+          <img src={imgLogo} alt="ícone" width="64" height="64" />
         </Col>
         <Col sm={6} className="textoCabecalho">
           <p>{props.titulo}</p>
