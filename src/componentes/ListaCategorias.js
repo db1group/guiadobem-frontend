@@ -6,36 +6,17 @@ import "./ListaCategorias.css";
 
 export default function ListaCategorias({ match, history }) {
   const [categorias, setCategorias] = useState([]);
+  const [cidade, setCidade] = useState([]);
   const idcidade = match.params.idcidade;
   const baseUrlImagem = "https://arquivos-app-do-bem-s3.s3.amazonaws.com/";
 
   useEffect(() => {
     async function carregarCategorias() {
-      // const response = await api.get("/categorias");
-      // setCategorias(response.data);
-      setCategorias([
-        {
-          id: 1,
-          nome: "Hortifruti",
-          urlImagem:
-            "APP/beautiful-women-works-in-a-garden-near-the-house-VWCH78M-ok.jpg"
-        },
-        {
-          id: 2,
-          nome: "Pães e Bolos",
-          urlImagem: "APP/various-sliced-bread-PH7UZWM-ok.jpg"
-        },
-        {
-          id: 3,
-          nome: "Serviços",
-          urlImagem: "APP/cleaning-service-during-work-PPTAZG5-ok.jpg"
-        },
-        {
-          id: 4,
-          nome: "Outros Produtos",
-          urlImagem: "APP/honey-product-P864FVE-ok.jpg"
-        }
-      ]);
+      const resposeCategorias = await api.get("/categorias");
+      setCategorias(resposeCategorias.data);
+
+      const responseCidade = await api.get("/cidades/" + idcidade);
+      setCidade(responseCidade.data);
     }
     carregarCategorias();
   }, []);
@@ -48,10 +29,11 @@ export default function ListaCategorias({ match, history }) {
 
   return (
     <Container>
-      <Cabecalho titulo="Maringá" />
+      <Cabecalho titulo={cidade.nome || "Guia do Bem"} />
       <CardDeck>
         {categorias.map(categoria => (
           <Card
+            key={categoria.id}
             action
             onClick={e => categoriaSelecionada(idcidade, categoria.id)}
           >

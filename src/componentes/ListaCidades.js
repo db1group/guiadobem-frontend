@@ -10,18 +10,8 @@ export default function ListaCidades({ history }) {
 
   useEffect(() => {
     async function carregarCidades() {
-      // const response = await api.get("/cidades");
-      // setCidades(response.data);
-      setCidades([
-        { id: 1, nome: "Maringá", urlImagem: "APP/maringa-660x372.jpg" },
-        {
-          id: 2,
-          nome: "Presidente Prudente",
-          urlImagem: "APP/unidade-presidente-prudente.jpg"
-        },
-        { id: 3, nome: "Campo Grande", urlImagem: "APP/Campo-Grande.jpg" },
-        { id: 4, nome: "Outras Cidades", urlImagem: "APP/dubai.jpg" }
-      ]);
+      const response = await api.get("/cidades");
+      setCidades(response.data);
     }
     carregarCidades();
   }, []);
@@ -35,7 +25,11 @@ export default function ListaCidades({ history }) {
       <Cabecalho titulo="Guia do Bem" />
       <CardDeck>
         {cidades.map(cidade => (
-          <Card action onClick={e => cidadeSelecionada(cidade.id)}>
+          <Card
+            key={cidade.id}
+            action
+            onClick={e => cidadeSelecionada(cidade.id)}
+          >
             <Card.Img variant="top" src={baseUrlImagem + cidade.urlImagem} />
             <Card.Body>
               <Card.Title>{cidade.nome}</Card.Title>

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "./ModalNovoParceiro.css";
 import api from "../services/api";
 
 export default function ModalNovoParceiro(props) {
+  const [cidades, setCidades] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [cidadeId, setcidadeId] = useState("");
   const [categoriaId, setcategoriaId] = useState("");
   const [nome, setNome] = useState("");
@@ -11,6 +13,19 @@ export default function ModalNovoParceiro(props) {
   const [telefone, setTelefone] = useState("");
   const [whatsapp, setwhatsapp] = useState("");
   const [responsavel, setResponsavel] = useState("");
+
+  useEffect(() => {
+    async function carregarCidades() {
+      const response = await api.get("/cidades");
+      setCidades(response.data);
+    }
+    async function carregarCategorias() {
+      const resposeCategorias = await api.get("/categorias");
+      setCategorias(resposeCategorias.data);
+    }
+    carregarCidades();
+    carregarCategorias();
+  }, []);
 
   async function incluirNovoParceiro(event) {
     event.preventDefault();
@@ -27,7 +42,7 @@ export default function ModalNovoParceiro(props) {
     const response = await api.post("/estabelecimentos", parceiro);
 
     if (response.status === 201) {
-      window.location.reload();
+      alert("Parceiro cadastrado com sucesso.");
     }
 
     setcidadeId("");
@@ -56,15 +71,16 @@ export default function ModalNovoParceiro(props) {
               as="select"
               value={cidadeId}
               required
-              onChange={e => setcidadeId(e.target.key)}
+              onChange={e => setcidadeId(e.target.value)}
             >
               <option value="" disabled hidden>
                 Selecione uma Cidade
               </option>
-              <option key="1">Maringá</option>
-              <option key="2">Campo Grande</option>
-              <option key="3">Presidente Prudente</option>
-              <option key="4">Outras</option>
+              {cidades.map(cidade => (
+                <option key={cidade.id} value={cidade.id}>
+                  {cidade.nome}
+                </option>
+              ))}
             </Form.Control>
             <Form.Control
               as="select"
@@ -75,10 +91,11 @@ export default function ModalNovoParceiro(props) {
               <option value="" disabled hidden>
                 Selecione uma Categoria
               </option>
-              <option key="1">Horti-fruti</option>
-              <option key="2">Confeitaria</option>
-              <option key="3">Serviços</option>
-              <option key="4">Outros Itens</option>
+              {categorias.map(categoria => (
+                <option key={categoria.id} value={categoria.id}>
+                  {categoria.nome}
+                </option>
+              ))}
             </Form.Control>
             <Form.Control
               type="text"
