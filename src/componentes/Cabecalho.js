@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 import "./Cabecalho.css";
 import ModalNovoParceiro from "./ModalNovoParceiro";
-import imgLogo from "../imagens/logo-cords.jpg";
+import imgLogo from "../imagens/logo-cords.png";
 
 export default function Cabecalho(props) {
   const [exibirModal, setexibirModal] = useState(false);

@@ -14,6 +14,24 @@ export default function ModalNovoParceiro(props) {
   const [whatsapp, setwhatsapp] = useState("");
   const [responsavel, setResponsavel] = useState("");
 
+  function onChangeWhatsapp(e) {
+    let telephone = e.target.value;
+
+    if (!Number(telephone.replace(/\s/g, ""))) {
+      return;
+    }
+    setwhatsapp(e.target.value);
+  }
+
+  function onChangeTelefone(e) {
+    let telephone = e.target.value;
+
+    if (!Number(telephone.replace(/\s/g, ""))) {
+      return;
+    }
+    setTelefone(e.target.value);
+  }
+
   useEffect(() => {
     async function carregarCidades() {
       const response = await api.get("/cidades");
@@ -112,18 +130,18 @@ export default function ModalNovoParceiro(props) {
               onChange={e => setTipo(e.target.value)}
             />
             <Form.Control
-              type="text"
+              type="tel"
               value={telefone}
               required
               placeholder="Telefone"
-              onChange={e => setTelefone(e.target.value)}
+              onChange={onChangeTelefone}
             />
             <Form.Control
-              type="text"
+              type="tel"
               value={whatsapp}
               required
               placeholder="WhatsApp"
-              onChange={e => setwhatsapp(e.target.value)}
+              onChange={onChangeWhatsapp}
             />
             <Form.Control
               type="text"
@@ -138,7 +156,7 @@ export default function ModalNovoParceiro(props) {
           </Button>
           {"  "}
           <Button variant="primary" type="submit">
-            Submit
+            Salvar
           </Button>
         </Form>
       </Modal.Body>

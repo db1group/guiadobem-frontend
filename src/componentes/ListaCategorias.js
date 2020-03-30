@@ -29,7 +29,7 @@ export default function ListaCategorias({ match, history }) {
 
   return (
     <Container>
-      <Cabecalho titulo={cidade.nome || "Guia do Bem"} />
+      <Cabecalho titulo={cidade.nome} />
       <CardDeck>
         {categorias.map(categoria => (
           <Card
@@ -40,6 +40,7 @@ export default function ListaCategorias({ match, history }) {
             <Card.Img variant="top" src={baseUrlImagem + categoria.urlImagem} />
             <Card.Body>
               <Card.Title>{categoria.nome}</Card.Title>
+              <Card.Text>{categoria.descricao}</Card.Text>
             </Card.Body>
           </Card>
         ))}

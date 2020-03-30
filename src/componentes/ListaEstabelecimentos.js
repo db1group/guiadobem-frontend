@@ -25,7 +25,7 @@ export default function ListaEstabelecimentos({ match }) {
 
   return (
     <Container>
-      <Cabecalho titulo={categoria.nome || "Guia do Bem"} />
+      <Cabecalho titulo={categoria.nome} />
       <CardColumns>
         {estabelecimentos.map(estabelecimento => (
           <Card bg="secondary" key={estabelecimento.id} text="white">
