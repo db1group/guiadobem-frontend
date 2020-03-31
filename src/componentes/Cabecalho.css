@@ -16,12 +16,31 @@
   transform: translate(0, -50%);
 }
 
+/* .imagemCabecalho {
+  cursor: pointer;
+} */
+
+.imagemCabecalho img {
+  height: 64px;
+  width: 64px;
+}
+
 .linha-cabecalho {
   border-bottom-width: 1px;
   border-bottom-style: solid;
 }
 
-.botaoCabecalho button {
-  margin-top: 15px;
-  float: right;
+.botaoCabecalho {
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (max-width: 400px) {
+  .textoCabecalho p {
+    font-size: 18px;
+  }
+
+  .botaoCabecalho button {
+    font-size: small;
+  }
 }

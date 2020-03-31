@@ -6,7 +6,7 @@ import "./ListaCategorias.css";
 
 export default function ListaCategorias({ match, history }) {
   const [categorias, setCategorias] = useState([]);
-  const [cidade, setCidade] = useState([]);
+  const [cidade, setCidade] = useState({ nome: "" });
   const idcidade = match.params.idcidade;
   const baseUrlImagem = "https://arquivos-app-do-bem-s3.s3.amazonaws.com/";
 

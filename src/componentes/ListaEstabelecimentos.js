@@ -6,7 +6,7 @@ import "./ListaEstabelecimento.css";
 
 export default function ListaEstabelecimentos({ match }) {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
-  const [categoria, setCategoria] = useState([]);
+  const [categoria, setCategoria] = useState({ nome: "" });
   const idcidade = match.params.idcidade;
   const idcategoria = match.params.idcategoria;
 
