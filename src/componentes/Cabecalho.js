@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Row, Col, Container, Button } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./Cabecalho.css";
 import ModalNovoParceiro from "./ModalNovoParceiro";
-import imgLogo from "../imagens/logo-cords.png";
+import imgLogo from "../imagens/logo-guia-do-bem.png";
 
 export default function Cabecalho(props, { history }) {
   const [exibirModal, setexibirModal] = useState(false);
@@ -10,37 +11,37 @@ export default function Cabecalho(props, { history }) {
   const clicouFechar = () => setexibirModal(false);
   const clicouExibir = () => setexibirModal(true);
 
-  function clicouHome() {}
-
   return (
-    <Container>
-      <Row className="linha-cabecalho">
-        <Col
-          lg={1}
-          md={2}
-          sm={2}
-          xs={3}
-          className="imagemCabecalho"
-          action
-          onClick={e => clicouHome()}
-        >
-          <img src={imgLogo} alt="ícone" />
-        </Col>
-        <Col lg={8} md={6} sm={6} xs={5} className="textoCabecalho">
-          <p>{props.titulo}</p>
-        </Col>
-        <Col lg={3} md={4} sm={4} xs={4} className="botaoCabecalho">
-          <Col>
-            <Button variant="primary" action onClick={e => clicouExibir()}>
+    <>
+      <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+        <Link to="/">
+          <img src={imgLogo} alt="ícone" width="50px" height="50px" />
+        </Link>
+        <Navbar.Brand className="textoCabecalho" href="/">
+          {" "}
+          GUIA DO BEM
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto"></Nav>
+          <Nav>
+            <Navbar.Brand
+              className="textoOpcoes"
+              action
+              onClick={e => clicouExibir()}
+            >
               Novo Parceiro
-            </Button>
-          </Col>
-        </Col>
-      </Row>
+            </Navbar.Brand>
+            {/* <Navbar.Brand className="textoOpcoes" href="/sobre">
+              Sobre
+            </Navbar.Brand> */}
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
       <ModalNovoParceiro
         exibirModal={exibirModal}
         clicouFechar={clicouFechar}
       />
-    </Container>
+    </>
   );
 }

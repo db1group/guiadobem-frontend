@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Card, CardDeck } from "react-bootstrap";
+import { Container, Card, CardDeck, Row, Col } from "react-bootstrap";
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
 import "./ListaCidades.css";
@@ -22,7 +22,7 @@ export default function ListaCidades({ history }) {
 
   return (
     <Container>
-      <Cabecalho titulo="Guia do Bem" />
+      <Cabecalho />
       <CardDeck>
         {cidades.map(cidade => (
           <Card

@@ -29,7 +29,7 @@ export default function ListaCategorias({ match, history }) {
 
   return (
     <Container>
-      <Cabecalho titulo={cidade.nome} />
+      <Cabecalho />
       <CardDeck>
         {categorias.map(categoria => (
           <Card

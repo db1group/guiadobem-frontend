@@ -25,16 +25,20 @@ export default function ListaEstabelecimentos({ match }) {
 
   return (
     <Container>
-      <Cabecalho titulo={categoria.nome} />
+      <Cabecalho />
       <CardColumns>
         {estabelecimentos.map(estabelecimento => (
-          <Card bg="secondary" key={estabelecimento.id} text="white">
+          <Card key={estabelecimento.id} text="black">
             <Card.Body>
               <Card.Title>{estabelecimento.nome}</Card.Title>
-              <Card.Text>{estabelecimento.tipo}</Card.Text>
-              <Card.Text>{estabelecimento.telefone}</Card.Text>
-              <Card.Text>{estabelecimento.whatsapp}</Card.Text>
-              <Card.Text>{estabelecimento.responsavel}</Card.Text>
+              <Card.Text>
+                {"Tipo de Produto: " + estabelecimento.tipo}
+              </Card.Text>
+              <Card.Text>{"Telefone: " + estabelecimento.telefone}</Card.Text>
+              <Card.Text>{"Whatsapp: " + estabelecimento.whatsapp}</Card.Text>
+              <Card.Text>
+                {"Responsável: " + estabelecimento.responsavel}
+              </Card.Text>
             </Card.Body>
           </Card>
         ))}
