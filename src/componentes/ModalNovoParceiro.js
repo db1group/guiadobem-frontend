@@ -26,6 +26,10 @@ export default function ModalNovoParceiro(props) {
   function onChangeTelefone(e) {
     let telephone = e.target.value;
 
+    if (telephone == "") {
+      setTelefone(e.target.value);
+    }
+
     if (!Number(telephone.replace(/\s/g, ""))) {
       return;
     }
@@ -83,18 +87,22 @@ export default function ModalNovoParceiro(props) {
         <Modal.Title>Novo Parceiro</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <h6>
+          Antes da publicação o cadastro será avaliado por nossa equipe, se
+          estiver tudo certo logo estará disponível.
+        </h6>
         <Form onSubmit={incluirNovoParceiro}>
           <Form.Group>
             <Form.Control
               as="select"
               value={cidadeId}
               required
-              onChange={e => setcidadeId(e.target.value)}
+              onChange={(e) => setcidadeId(e.target.value)}
             >
               <option value="" disabled hidden>
                 Selecione uma Cidade
               </option>
-              {cidades.map(cidade => (
+              {cidades.map((cidade) => (
                 <option key={cidade.id} value={cidade.id}>
                   {cidade.nome}
                 </option>
@@ -104,12 +112,12 @@ export default function ModalNovoParceiro(props) {
               as="select"
               value={categoriaId}
               required
-              onChange={e => setcategoriaId(e.target.value)}
+              onChange={(e) => setcategoriaId(e.target.value)}
             >
               <option value="" disabled hidden>
                 Selecione uma Categoria
               </option>
-              {categorias.map(categoria => (
+              {categorias.map((categoria) => (
                 <option key={categoria.id} value={categoria.id}>
                   {categoria.nome}
                 </option>
@@ -120,14 +128,14 @@ export default function ModalNovoParceiro(props) {
               value={nome}
               required
               placeholder="Digite o nome"
-              onChange={e => setNome(e.target.value)}
+              onChange={(e) => setNome(e.target.value)}
             />
             <Form.Control
               type="text"
               value={tipo}
               required
               placeholder="Tipo produto/serviço"
-              onChange={e => setTipo(e.target.value)}
+              onChange={(e) => setTipo(e.target.value)}
             />
             <Form.Control
               type="tel"
@@ -148,7 +156,7 @@ export default function ModalNovoParceiro(props) {
               value={responsavel}
               required
               placeholder="Responsável"
-              onChange={e => setResponsavel(e.target.value)}
+              onChange={(e) => setResponsavel(e.target.value)}
             />
           </Form.Group>
           <Button variant="secondary" onClick={props.clicouFechar}>

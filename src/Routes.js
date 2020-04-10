@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import ListaCidades from "./componentes/ListaCidades";
 import ListaCategorias from "./componentes/ListaCategorias";
 import ListaEstabelecimentos from "./componentes/ListaEstabelecimentos";
+import Sobre from "./componentes/Sobre";
 
 function Routes() {
   return (
@@ -19,6 +20,7 @@ function Routes() {
         exact
         component={ListaEstabelecimentos}
       />
+      <Route path="/sobre" component={Sobre} />
     </BrowserRouter>
   );
 }

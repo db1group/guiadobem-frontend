@@ -1,0 +1,53 @@
+.fundoSobre {
+  margin-top: 5px;
+  background-color: #007bff;
+  color: white;
+}
+
+.tituloSobre {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.textoSobre {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.textoAjude {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.imagensSobre {
+  height: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.imagemCords {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.imagemAjude {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.imagemDB1 {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
