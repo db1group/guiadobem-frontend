@@ -3,6 +3,7 @@ import { Container, CardColumns, Card, Row } from "react-bootstrap";
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
 import "./ListaEstabelecimento.css";
+import { FaPhone, FaUser, FaBarcode, FaWhatsapp } from 'react-icons/fa';
 
 export default function ListaEstabelecimentos({ match }) {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
@@ -10,7 +11,31 @@ export default function ListaEstabelecimentos({ match }) {
   const [cidade, setCidade] = useState({ nome: "" });
   const idcidade = match.params.idcidade;
   const idcategoria = match.params.idcategoria;
-
+  const TIPOSTEXTO = {
+    telefone: {
+      icone: <FaPhone />,
+      rotulo: 'Telefone',
+    },
+    responsavel: {
+      icone: <FaUser />,
+      rotulo: 'Responsável',
+    },
+    tipoproduto: {
+      icone: <FaBarcode />,
+      rotulo: 'Tipo de produto',
+    },
+    whatsapp: {
+      icone: <FaWhatsapp />,
+      rotulo: 'Whatsapp',
+    }
+  }  
+  const PLANOFUNDO = [
+    "bkgHortiFruiti", 
+    "bkgConfeitaria", 
+    "bkgServicos", 
+    "bkgOutros"
+  ]
+  
   useEffect(() => {
     async function carregarEstabelecimentos() {
       const response = await api.get(
@@ -27,24 +52,28 @@ export default function ListaEstabelecimentos({ match }) {
     carregarEstabelecimentos();
   }, []);
 
-  const definirBackground = () => {
-    if (idcategoria == 1) {
-      // HortiFruti
-      return "bkgHortiFruiti";
-    }
-    if (idcategoria == 2) {
-      // Confeitaria
-      return "bkgConfeitaria";
-    }
-    if (idcategoria == 3) {
-      // Serviços
-      return "bkgServicos";
-    }
-    if (idcategoria == 4) {
-      //Outros
-      return "bkgOutros";
-    }
+  const definirPlanoFundo = () => {
+    return PLANOFUNDO[idcategoria-1]    
   };
+
+  const renderTexto = (tipo, texto) => {
+    if (!texto || !tipo) {
+      return undefined
+    }
+
+    return (
+      <div>
+        <div>{TIPOSTEXTO[tipo].icone} <span style={{fontWeight:"bold"}}>{TIPOSTEXTO[tipo].rotulo}</span></div>
+        <div>{texto}</div>
+      </div>
+    )
+  }
+
+  const renderTitulo = (texto) => {
+    return (
+        <span style={{fontWeight:"bold"}}>{texto}</span>
+    )
+  }
 
   return (
     <Container>
@@ -62,18 +91,14 @@ export default function ListaEstabelecimentos({ match }) {
           <Card
             key={estabelecimento.id}
             text="black"
-            className={definirBackground()}
+            className={definirPlanoFundo()}
           >
             <Card.Body>
-              <Card.Title>{estabelecimento.nome}</Card.Title>
-              <Card.Text>
-                {"Tipo de Produto: " + estabelecimento.tipo}
-              </Card.Text>
-              <Card.Text>{"Telefone: " + estabelecimento.telefone}</Card.Text>
-              <Card.Text>{"Whatsapp: " + estabelecimento.whatsapp}</Card.Text>
-              <Card.Text>
-                {"Responsável: " + estabelecimento.responsavel}
-              </Card.Text>
+              <Card.Title>{renderTitulo(estabelecimento.nome)}</Card.Title>
+              <Card.Text>{renderTexto("tipoproduto", estabelecimento.tipo)}</Card.Text>
+              <Card.Text>{renderTexto("telefone", estabelecimento.telefone)}</Card.Text>
+              <Card.Text>{renderTexto("whatsapp", estabelecimento.whatsapp)}</Card.Text>
+              <Card.Text>{renderTexto("responsavel", estabelecimento.responsavel)}</Card.Text>
             </Card.Body>
           </Card>
         ))}
