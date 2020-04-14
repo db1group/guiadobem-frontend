@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Card, CardDeck, Row, Button } from "react-bootstrap";
+import { Container, Card, CardDeck, Row } from "react-bootstrap";
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
 import imgConfeitaria from "../imagens/confeitaria.jpg";
@@ -50,13 +50,6 @@ export default function ListaCategorias({ match, history }) {
       <Cabecalho />
       <Container>
         <Row className="nomeCidade">
-          <Button
-            style={{ alignItems: "left" }}
-            className="button icon-left"
-            onClick={history.goBack}
-          >
-            Voltar
-          </Button>
           <h3>{cidade.nome}</h3>
         </Row>
       </Container>
