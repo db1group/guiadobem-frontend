@@ -21,18 +21,3 @@
   background-image: url("../imagens/bkgservicos.jpg");
   background-size: 100% 100%;
 }
-
-.nomeCategoria {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: lightblue;
-}
-
-@media only screen and (max-width: 400px) {
-  .nomeCategoria h3 {
-    font-size: 20px;
-  }
-}

@@ -1,18 +1,22 @@
 import React from "react";
 import { Container, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Cabecalho from "./Cabecalho";
+import { FaAngleLeft } from "react-icons/fa";
 import imgLogoCords from "../imagens/logo-cords.png";
 import imgLogoDB1 from "../imagens/logo-db1.png";
 import imgAjude from "../imagens/ajude.png";
 import "./Sobre.css";
 
-function Sobre() {
+function Sobre({history}) {
   return (
     <Container>
       <Cabecalho />
       <Container className="fundoSobre">
         <br></br>
         <Row className="tituloSobre">
+          <div onClick={history.goBack} className="botaoVoltar">
+            <FaAngleLeft size="35px" />
+          </ div>
           <h3>APRESENTAÇÃO</h3>
         </Row>
         <br></br>

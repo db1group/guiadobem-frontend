@@ -1,0 +1,18 @@
+.titulo {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: lightblue;
+  }
+  
+  @media only screen and (max-width: 400px) {
+    .titulo h3 {
+      font-size: 20px;
+    }
+  }
+
+  .botaoVoltar {
+      cursor: pointer;
+  }
