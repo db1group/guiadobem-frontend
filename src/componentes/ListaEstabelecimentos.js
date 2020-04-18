@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Container, CardColumns, Card, Row } from "react-bootstrap";
+import { Container, CardColumns, Card } from "react-bootstrap";
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
 import "./ListaEstabelecimento.css";
 import { FaPhone, FaUser, FaBarcode, FaWhatsapp } from 'react-icons/fa';
+import Titulo from "./Titulo";
 
-export default function ListaEstabelecimentos({ match }) {
+export default function ListaEstabelecimentos({ match, history }) {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [categoria, setCategoria] = useState({ nome: "" });
   const [cidade, setCidade] = useState({ nome: "" });
+  const [textoTitulo, setTextoTitulo] = useState("");
   const idcidade = match.params.idcidade;
   const idcategoria = match.params.idcategoria;
   const TIPOSTEXTO = {
@@ -38,16 +40,18 @@ export default function ListaEstabelecimentos({ match }) {
   
   useEffect(() => {
     async function carregarEstabelecimentos() {
-      const response = await api.get(
-        "/estabelecimentos/" + idcidade + "/" + idcategoria
-      );
-      setEstabelecimentos(response.data);
-
       const responseCategoria = await api.get("/categorias/" + idcategoria);
       setCategoria(responseCategoria.data);
 
       const responseCidade = await api.get("/cidades/" + idcidade);
       setCidade(responseCidade.data);
+
+      setTextoTitulo(`${responseCidade.data.nome ? responseCidade.data.nome + " - " : ""} ${responseCategoria.data.nome}`);
+
+      const response = await api.get(
+        "/estabelecimentos/" + idcidade + "/" + idcategoria
+      );
+      setEstabelecimentos(response.data);
     }
     carregarEstabelecimentos();
   }, []);
@@ -79,12 +83,9 @@ export default function ListaEstabelecimentos({ match }) {
     <Container>
       <Cabecalho />
       <Container>
-        <Row className="nomeCategoria">
-          <h3>
-            {cidade.nome ? cidade.nome + " - " : ""}
-            {categoria.nome}
-          </h3>
-        </Row>
+          <Titulo botaoVoltarClique={history.goBack}>
+            {textoTitulo}
+          </Titulo>
       </Container>
       <CardColumns className="cardColumnsEstabelecimentos">
         {estabelecimentos.map((estabelecimento) => (

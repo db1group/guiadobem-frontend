@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Card, CardDeck, Row } from "react-bootstrap";
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
+import Titulo from "./Titulo";
 import imgConfeitaria from "../imagens/confeitaria.jpg";
 import imgHortiFruti from "../imagens/hortifruti.jpg";
 import imgOutros from "../imagens/outros.jpg";
@@ -49,9 +50,7 @@ export default function ListaCategorias({ match, history }) {
     <Container>
       <Cabecalho />
       <Container>
-        <Row className="nomeCidade">
-          <h3>{cidade.nome}</h3>
-        </Row>
+        <Titulo botaoVoltarClique={history.goBack}>{cidade.nome}</Titulo>  
       </Container>
       <CardDeck>
         {categorias.map((categoria) => (
