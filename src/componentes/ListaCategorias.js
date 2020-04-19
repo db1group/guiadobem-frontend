@@ -23,9 +23,9 @@ export default function ListaCategorias({ match, history }) {
       setCidade(responseCidade.data);
     }
     carregarCategorias();
-  });
+  },[idcidade]);
 
-  function categoriaSelecionada(idcidade, idcategoria) {
+  function categoriaSelecionada(idcategoria) {
     history.push(
       `/listacategorias/${idcidade}/estabelecimentos/${idcategoria}`
     );
@@ -56,8 +56,7 @@ export default function ListaCategorias({ match, history }) {
         {categorias.map((categoria) => (
           <Card
             key={categoria.id}
-            //action
-            onClick={(e) => categoriaSelecionada(idcidade, categoria.id)}
+            onClick={(e) => categoriaSelecionada(categoria.id)}
           >
             <Card.Img variant="top" src={definirImagem(categoria.id)} />
             <Card.Body>

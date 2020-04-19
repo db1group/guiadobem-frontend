@@ -49,7 +49,6 @@ export default function ListaCidades({ history }) {
         {cidades.map((cidade) => (
           <Card
             key={cidade.id}
-            //action
             onClick={(e) => cidadeSelecionada(cidade.id)}
           >
             <Card.Img variant="top" src={definirImagem(cidade.id)} />

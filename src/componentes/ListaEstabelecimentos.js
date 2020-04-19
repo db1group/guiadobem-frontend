@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, CardColumns, Card, Row, Form } from "react-bootstrap";
 import { FaPhone, FaUser, FaBarcode, FaWhatsapp } from 'react-icons/fa';
-import { possuiTexto, textoIgual } from '../util/utilidade';
+import { possuiTexto, textoIgual, removerAcentos } from '../util/utilidade';
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
 import Titulo from "./Titulo";
@@ -194,15 +194,26 @@ export default class ListaEstabelecimentos extends Component {
           return texto;
       }
       
-      const partes = texto.split(new RegExp(`(${destaque})`, 'gi'));
+      const textoSemAcentos = removerAcentos(texto).toLowerCase();
+      const destaqueSemAcentos = removerAcentos(destaque).toLowerCase();      
+      const partesSemAcento = textoSemAcentos.split(new RegExp(`(${destaqueSemAcentos})`, 'gi'));
+      
+      let indiceAtual = 0;
+      const partes = partesSemAcento.map(
+        (parteSemAcento) => {
+          const textoOriginal = texto.substr(indiceAtual, parteSemAcento.length);
+          indiceAtual += parteSemAcento.length;
+          return textoOriginal; 
+        } 
+      );
 
       return (
-        <span>
+        <>
           {partes.map(
-            parte => (textoIgual(parte, destaque)) 
-              ? <span style={{fontWeight: "bold", backgroundColor: "rgba(201, 76, 76, 0.3)"}}>{parte}</span> 
+            (parte, index) => (textoIgual(parte, destaque)) 
+              ? <span key={index} style={{fontWeight: "bold", backgroundColor: "rgba(201, 76, 76, 0.3)"}}>{parte}</span> 
               : parte
             )}
-        </span>);
+        </>);
   }
 }
