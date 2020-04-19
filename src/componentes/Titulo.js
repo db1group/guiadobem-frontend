@@ -10,11 +10,14 @@ export default class Titulo extends Component {
         const { children, botaoVoltarClique } = this.props;
 
         return (
-            <Row className="titulo">
+            <Row className="titulo" style={{flexWrap:"nowrap"}}>
                 <div onClick={botaoVoltarClique} className="botaoVoltar">
                     <FaAngleLeft size="35px" />
                 </ div>
-                <h3>{children}</h3>
+                <div style={{textAlign: "center"}} className="textotitulo">
+                    {children}
+                </div>
+
                 <span />
             </Row>    
         );

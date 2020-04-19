@@ -26,7 +26,7 @@ export default function ModalNovoParceiro(props) {
   function onChangeTelefone(e) {
     let telephone = e.target.value;
 
-    if (telephone == "") {
+    if (telephone === "") {
       setTelefone(e.target.value);
     }
 

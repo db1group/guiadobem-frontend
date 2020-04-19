@@ -25,19 +25,19 @@ export default function ListaCidades({ history }) {
   }
 
   function definirImagem(idCidade) {
-    if (idCidade == 1) {
+    if (idCidade === 1) {
       return imgMaringa;
     }
-    if (idCidade == 2) {
+    if (idCidade === 2) {
       return imgPresidentePrudente;
     }
-    if (idCidade == 3) {
+    if (idCidade === 3) {
       return imgCampoGrande;
     }
-    if (idCidade == 4) {
+    if (idCidade === 4) {
       return imgMosaico;
     }
-    if (idCidade == 7) {
+    if (idCidade === 7) {
       return imgPortoAlegre;
     }
   }
@@ -49,7 +49,6 @@ export default function ListaCidades({ history }) {
         {cidades.map((cidade) => (
           <Card
             key={cidade.id}
-            action
             onClick={(e) => cidadeSelecionada(cidade.id)}
           >
             <Card.Img variant="top" src={definirImagem(cidade.id)} />
