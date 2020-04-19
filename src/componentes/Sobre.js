@@ -48,7 +48,7 @@ function Sobre({history}) {
             overlay={<Tooltip id="tooltip-bottom">Site DB1 Group</Tooltip>}
           >
             <Col xs={3} className="imagemDB1">
-              <a href="https://www.db1group.com/" target="_blank">
+              <a href="https://www.db1group.com/" target="_blank" rel="noopener noreferrer">
                 <img
                   src={imgLogoDB1}
                   alt="DB1 Group"

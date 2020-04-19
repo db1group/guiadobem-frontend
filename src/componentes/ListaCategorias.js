@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Card, CardDeck, Row } from "react-bootstrap";
+import { Container, Card, CardDeck } from "react-bootstrap";
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
 import Titulo from "./Titulo";
@@ -23,7 +23,7 @@ export default function ListaCategorias({ match, history }) {
       setCidade(responseCidade.data);
     }
     carregarCategorias();
-  }, []);
+  });
 
   function categoriaSelecionada(idcidade, idcategoria) {
     history.push(
@@ -32,16 +32,16 @@ export default function ListaCategorias({ match, history }) {
   }
 
   function definirImagem(idCategoria) {
-    if (idCategoria == 1) {
+    if (idCategoria === 1) {
       return imgHortiFruti;
     }
-    if (idCategoria == 2) {
+    if (idCategoria === 2) {
       return imgConfeitaria;
     }
-    if (idCategoria == 3) {
+    if (idCategoria === 3) {
       return imgServicos;
     }
-    if (idCategoria == 4) {
+    if (idCategoria === 4) {
       return imgOutros;
     }
   }
@@ -56,7 +56,7 @@ export default function ListaCategorias({ match, history }) {
         {categorias.map((categoria) => (
           <Card
             key={categoria.id}
-            action
+            //action
             onClick={(e) => categoriaSelecionada(idcidade, categoria.id)}
           >
             <Card.Img variant="top" src={definirImagem(categoria.id)} />

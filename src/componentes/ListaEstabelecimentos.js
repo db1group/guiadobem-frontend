@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Container, CardColumns, Card } from "react-bootstrap";
+import React, { Component } from "react";
+import { Container, CardColumns, Card, Row, Form } from "react-bootstrap";
+import { FaPhone, FaUser, FaBarcode, FaWhatsapp } from 'react-icons/fa';
+import { possuiTexto, textoIgual } from '../util/utilidade';
 import api from "../services/api";
 import Cabecalho from "./Cabecalho";
-import "./ListaEstabelecimento.css";
-import { FaPhone, FaUser, FaBarcode, FaWhatsapp } from 'react-icons/fa';
 import Titulo from "./Titulo";
 
-export default function ListaEstabelecimentos({ match, history }) {
-  const [estabelecimentos, setEstabelecimentos] = useState([]);
-  const [categoria, setCategoria] = useState({ nome: "" });
-  const [cidade, setCidade] = useState({ nome: "" });
-  const [textoTitulo, setTextoTitulo] = useState("");
-  const idcidade = match.params.idcidade;
-  const idcategoria = match.params.idcategoria;
-  const TIPOSTEXTO = {
+import "./ListaEstabelecimento.css";
+
+export default class ListaEstabelecimentos extends Component {
+
+  PLANOFUNDO = [
+    "bkgHortiFruiti", 
+    "bkgConfeitaria", 
+    "bkgServicos", 
+    "bkgOutros"
+  ]
+
+  TIPOSTEXTO = {
     telefone: {
       icone: <FaPhone />,
       rotulo: 'Telefone',
@@ -30,80 +34,175 @@ export default function ListaEstabelecimentos({ match, history }) {
       icone: <FaWhatsapp />,
       rotulo: 'Whatsapp',
     }
-  }  
-  const PLANOFUNDO = [
-    "bkgHortiFruiti", 
-    "bkgConfeitaria", 
-    "bkgServicos", 
-    "bkgOutros"
-  ]
-  
-  useEffect(() => {
-    async function carregarEstabelecimentos() {
-      const responseCategoria = await api.get("/categorias/" + idcategoria);
-      setCategoria(responseCategoria.data);
+  }
 
-      const responseCidade = await api.get("/cidades/" + idcidade);
-      setCidade(responseCidade.data);
+  state = {  
+    estabelecimentos: [],
+    estabelecimentosFiltrados: [],
+    textoTitulo: "",
+    textoPesquisado: "",
+    idCidade: "",
+    idCategoria: "",
+  }
 
-      setTextoTitulo(`${responseCidade.data.nome ? responseCidade.data.nome + " - " : ""} ${responseCategoria.data.nome}`);
+  async componentDidMount() {
+    const {idcidade, idcategoria} = this.props.match.params;
+    const responseCategoria = await api.get(`/categorias/${idcategoria}`);
+    const responseCidade = await api.get(`/cidades/${idcidade}`);   
+    const textoTitulo = `${responseCidade.data.nome} - ${responseCategoria.data.nome}`;
 
-      const response = await api.get(
-        "/estabelecimentos/" + idcidade + "/" + idcategoria
-      );
-      setEstabelecimentos(response.data);
+    this.setState({
+      textoTitulo: `${responseCidade.data.nome ? textoTitulo : responseCategoria.data.nome} ` 
+    });    
+
+    const response = await api.get(`/estabelecimentos/${idcidade}/${idcategoria}`);
+    this.setState({
+      estabelecimentos: response.data,
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { estabelecimentos } = this.state;
+
+    if (prevState.estabelecimentos !== estabelecimentos) {
+        this.atualizarEstabelecimentosFiltrados();
     }
-    carregarEstabelecimentos();
-  }, []);
+  }
 
-  const definirPlanoFundo = () => {
-    return PLANOFUNDO[idcategoria-1]    
+  atualizarEstabelecimentosFiltrados = () => {
+    const { textoPesquisado, estabelecimentos } = this.state;    
+    
+    if (!textoPesquisado || textoPesquisado === "") {
+      this.setState({
+        estabelecimentosFiltrados: estabelecimentos,
+      });
+
+      return;
+    }
+
+    const estabelecimentosFiltrados = estabelecimentos.filter(estabelecimento => {
+        return possuiTexto(estabelecimento.nome, textoPesquisado)
+          || possuiTexto(estabelecimento.tipo, textoPesquisado)
+          || possuiTexto(estabelecimento.telefone, textoPesquisado)
+          || possuiTexto(estabelecimento.whatsapp, textoPesquisado)
+          || possuiTexto(estabelecimento.responsavel, textoPesquisado);
+    });
+    
+    this.setState({
+      estabelecimentosFiltrados: estabelecimentosFiltrados,
+    })  
+  }
+
+  
+
+  render() {
+    const { history } = this.props;
+    const { textoTitulo, estabelecimentosFiltrados } = this.state;
+
+    return (
+      <Container>
+        <Cabecalho />
+        <Container>
+            <Titulo botaoVoltarClique={history.goBack}>
+              {textoTitulo}
+            </Titulo>
+            {this.renderFiltro()}
+        </Container>
+        <CardColumns className="cardColumnsEstabelecimentos">
+          {estabelecimentosFiltrados.map((estabelecimento) => (
+            <Card
+              key={estabelecimento.id}
+              text="black"
+              className={this.definirPlanoFundo()}
+            >
+              <Card.Body>
+                <Card.Title>{this.renderTitulo(estabelecimento.nome)}</Card.Title>
+                {this.renderCorpo(estabelecimento)}
+              </Card.Body>
+            </Card>
+          ))}
+        </CardColumns>
+      </Container>
+    );
+  }
+
+  renderFiltro = () => (
+      <Form>
+        <Row>
+          <Form.Control as="input" 
+                        id="filtro-estabelecimentos" 
+                        type="text"
+                        name="filtro-estabelecimentos"
+                        placeholder="Filtrar estabelecimentos"
+                        autoComplete="off"
+                        onChange={this.mudarPesquisa} 
+          />
+        </Row>
+      </Form>
+  )
+
+  mudarPesquisa = (event, valid) => {
+    const { value } = event.target;
+    this.setState({
+        textoPesquisado: value,
+    }, () => {
+        this.atualizarEstabelecimentosFiltrados();
+    })
+  }
+
+  definirPlanoFundo = () => {
+    const { idcategoria } = this.props.match.params;
+    return this.PLANOFUNDO[idcategoria-1]    
   };
 
-  const renderTexto = (tipo, texto) => {
+  renderTitulo = (texto) => {
+    const { textoPesquisado } = this.state;
+    return (
+        <span style={{fontWeight:"bold"}}>{this.destacarTexto(texto, textoPesquisado)}</span>
+    )
+  }
+
+  renderCorpo = (estabelecimento) => {
+
+    return (
+      <>
+        <div className="tipo-texto-card">{this.renderTexto("tipoproduto", estabelecimento.tipo)}</div>
+        <div className="tipo-texto-card">{this.renderTexto("telefone", estabelecimento.telefone)}</div>
+        <div className="tipo-texto-card">{this.renderTexto("whatsapp", estabelecimento.whatsapp)}</div>
+        <div className="tipo-texto-card">{this.renderTexto("responsavel", estabelecimento.responsavel)}</div>
+      </>
+    )
+  }
+  renderTexto = (tipo, texto) => {
+    const { textoPesquisado } = this.state;
+
     if (!texto || !tipo) {
       return undefined
     }
 
+    const tipoTexto = this.TIPOSTEXTO[tipo];
     return (
       <div>
-        <div>{TIPOSTEXTO[tipo].icone} <span style={{fontWeight:"bold"}}>{TIPOSTEXTO[tipo].rotulo}</span></div>
-        <div>{texto}</div>
+        <div>{tipoTexto.icone} <span style={{fontWeight:"bold"}}>{tipoTexto.rotulo}</span></div>
+        <div>{this.destacarTexto(texto, textoPesquisado)}</div>
       </div>
     )
   }
+  
+  destacarTexto = (texto, destaque) => {
+      if (!texto || !destaque) {
+          return texto;
+      }
+      
+      const partes = texto.split(new RegExp(`(${destaque})`, 'gi'));
 
-  const renderTitulo = (texto) => {
-    return (
-        <span style={{fontWeight:"bold"}}>{texto}</span>
-    )
+      return (
+        <span>
+          {partes.map(
+            parte => (textoIgual(parte, destaque)) 
+              ? <span style={{fontWeight: "bold", backgroundColor: "rgba(201, 76, 76, 0.3)"}}>{parte}</span> 
+              : parte
+            )}
+        </span>);
   }
-
-  return (
-    <Container>
-      <Cabecalho />
-      <Container>
-          <Titulo botaoVoltarClique={history.goBack}>
-            {textoTitulo}
-          </Titulo>
-      </Container>
-      <CardColumns className="cardColumnsEstabelecimentos">
-        {estabelecimentos.map((estabelecimento) => (
-          <Card
-            key={estabelecimento.id}
-            text="black"
-            className={definirPlanoFundo()}
-          >
-            <Card.Body>
-              <Card.Title>{renderTitulo(estabelecimento.nome)}</Card.Title>
-              <Card.Text>{renderTexto("tipoproduto", estabelecimento.tipo)}</Card.Text>
-              <Card.Text>{renderTexto("telefone", estabelecimento.telefone)}</Card.Text>
-              <Card.Text>{renderTexto("whatsapp", estabelecimento.whatsapp)}</Card.Text>
-              <Card.Text>{renderTexto("responsavel", estabelecimento.responsavel)}</Card.Text>
-            </Card.Body>
-          </Card>
-        ))}
-      </CardColumns>
-    </Container>
-  );
 }

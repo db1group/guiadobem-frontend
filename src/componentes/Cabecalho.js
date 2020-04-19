@@ -56,7 +56,7 @@ export default function Cabecalho(props, { history }) {
               >
                 <Navbar.Brand
                   className="textoOpcoes"
-                  action
+                  // action
                   onClick={(e) => clicouExibir()}
                 >
                   Novo Parceiro
@@ -65,7 +65,7 @@ export default function Cabecalho(props, { history }) {
             ) : (
               <Navbar.Brand
                 className="textoOpcoes"
-                action
+                // action
                 onClick={(e) => clicouExibir()}
               >
                 Novo Parceiro
