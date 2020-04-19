@@ -25,3 +25,18 @@
 .tipo-texto-card {
   margin-bottom: 0.4em;
 }
+
+.texto-sem-cadastro {
+  text-align: center;
+}
+
+.texto-sem-cadastro img {
+  width: 20%;
+  margin-bottom: 0.5em;
+}
+
+@media only screen and (max-width: 400px) {
+  .texto-sem-cadastro img {
+    width: 30%;
+  }
+}
